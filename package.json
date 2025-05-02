@@ -1,0 +1,16 @@
+{
+  "name": "triks",
+  "version": "1.0.0",
+  "description": "Triks Application",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch --poll",
+    "build": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify",
+    "watch": "nodemon --watch pages --watch includes --watch components --watch assets --ext php,js,jsx,html --exec \"npm run dev\""
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "nodemon": "^3.0.1",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2"
+  }
+}

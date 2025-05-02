@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /triks/
+
+# Se não for um arquivo ou diretório existente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirecionar tudo para o index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
