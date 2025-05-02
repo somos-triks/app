@@ -30,6 +30,39 @@ export class ItemActions {
         }
     }
 
+    async editarPrazo(itemId, item) {
+        try {
+            await this.kanbanService.editarItemChecklist(itemId, {
+                ...item
+            });
+        } catch (error) {
+            this.board.utils.mostrarNotificacao('Erro ao editar prazo', 'error');
+            throw error;
+        }
+    }
+
+    async editarDescricao(itemId, item) {
+        try {
+            await this.kanbanService.editarItemChecklist(itemId, {
+                ...item
+            });
+        } catch (error) {
+            this.board.utils.mostrarNotificacao('Erro ao editar descrição', 'error');
+            throw error;
+        }
+    }
+
+    async editarDestaque(itemId, item) {
+        try {
+            await this.kanbanService.editarItemChecklist(itemId, {
+                ...item
+            });
+        } catch (error) {
+            this.board.utils.mostrarNotificacao('Erro ao alterar destaque', 'error');
+            throw error;
+        }
+    }
+
     async deletar(itemId) {
         try {
             await this.kanbanService.deletarItemChecklist(itemId);

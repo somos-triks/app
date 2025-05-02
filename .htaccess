@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /
+RewriteBase /triks/
 
 # Se não for um arquivo ou diretório existente
 RewriteCond %{REQUEST_FILENAME} !-f

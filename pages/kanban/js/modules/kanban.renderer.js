@@ -82,6 +82,14 @@ export class KanbanRenderer {
         
         const container = document.querySelector(`[data-lista-id="${listaId}"] .cards-container`);
         container.appendChild(cardElement);
+        
+        // Adicionar evento de clique diretamente aqui
+        cardElement.addEventListener('click', (e) => {
+            if (!e.target.closest('.edit-card-btn')) {
+                this.board.cardModal.showModal(card.id);
+            }
+        });
+        
         return cardElement;
     }
 
@@ -114,12 +122,5 @@ export class KanbanRenderer {
                 ` : ''}
             </div>
         `;
-
-        // Re-add click event
-        cardElement.addEventListener('click', (e) => {
-            if (!e.target.closest('.edit-card-btn')) {
-                this.board.cardModal.showModal(card.id);
-            }
-        });
     }
 }

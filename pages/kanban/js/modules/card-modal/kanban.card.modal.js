@@ -1,3 +1,5 @@
+import { ChecklistAnimations } from '../checklist/animations.js';
+
 export class KanbanCardModal {
     constructor(board) {
         if (!board) {
@@ -6,7 +8,21 @@ export class KanbanCardModal {
         this.board = board;
         this.modal = document.getElementById('cardModal');
         this.currentCardId = null;
+        this.isLoadingCard = false; // Flag para controlar requisições
         this.setupEventListeners();
+        this.carregarAnimacaoCSS();
+    }
+
+    carregarAnimacaoCSS() {
+        // Verifica se o CSS de animação já foi carregado
+        if (document.getElementById('animate-css')) return;
+        
+        // Adiciona a biblioteca Animate.css à página
+        const link = document.createElement('link');
+        link.id = 'animate-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+        document.head.appendChild(link);
     }
 
     setupEventListeners() {
@@ -87,7 +103,9 @@ export class KanbanCardModal {
         // Adicionar handler para os botões de criar/cancelar novo grupo
         document.addEventListener('click', async (e) => {
             if (e.target.closest('.cancel-checklist-group')) {
-                e.target.closest('.bg-gray-50').remove();
+                const container = e.target.closest('.bg-gray-50');
+                // Aplica animação de saída antes de remover
+                await ChecklistAnimations.saida(container, 'fade', 300, true);
             }
 
             if (e.target.closest('.save-checklist-group')) {
@@ -108,10 +126,12 @@ export class KanbanCardModal {
 
                     const response = await kanbanService.criarGrupoChecklist(dados);
                     if (response.success) {
-                        container.remove();
-                        // Renderiza o novo grupo diretamente
+                        // Aplica animação de saída ao container do formulário
+                        await ChecklistAnimations.saida(container, 'fade', 300, true);
+                        
+                        // Renderiza o novo grupo diretamente com animação
                         const grupoEl = this.board.checklistManager.grupoRenderer.render(response.data);
-                        document.getElementById('checklistGroups').appendChild(grupoEl);
+                        ChecklistAnimations.entrada(grupoEl, 'slide', 400);
                     }
                 } catch (error) {
                     this.board.utils.mostrarNotificacao('Erro ao criar checklist', 'error');
@@ -204,10 +224,12 @@ export class KanbanCardModal {
 
     hideModal() {
         this.modal.classList.add('hidden');
-        document.getElementById('cardTitle').textContent = '';
-        document.getElementById('cardDescricao').textContent = '';
-        document.getElementById('cardPrazo').textContent = '';
-        document.getElementById('cardPrioridade').textContent = '';
+        this.currentCardId = null;
+        document.getElementById('cardTitle').value = '';
+        document.getElementById('cardDescricao').value = '';
+        document.getElementById('cardPrazo').value = '';
+        document.getElementById('cardPrioridade').value = '0';
+        this.board.checklistManager.limparChecklists();
     }
 
     showLoading(show) {

@@ -292,6 +292,9 @@ const kanbanService = {
         try {
             const { API_URL, AUTH_TOKEN } = window.appConfig;
             
+            // Log para depuração
+            console.log('[API] Deletando grupo checklist:', grupoId);
+            
             const response = await fetch(`${API_URL}/kanban-grupos-checklist/${grupoId}`, {
                 method: 'DELETE',
                 headers: {
@@ -301,12 +304,20 @@ const kanbanService = {
             });
 
             const data = await response.json();
+            
+            // Log detalhado para depuração
+            console.log('[API] Resposta ao deletar grupo:', {
+                status: response.status,
+                ok: response.ok,
+                data: data
+            });
+            
             if (!response.ok || !data.success) {
                 throw new Error(data.message || 'Erro ao deletar grupo de checklist');
             }
             return data;
         } catch (error) {
-            console.error('Erro ao deletar grupo de checklist:', error);
+            console.error('Erro detalhado ao deletar grupo de checklist:', error);
             throw error;
         }
     },

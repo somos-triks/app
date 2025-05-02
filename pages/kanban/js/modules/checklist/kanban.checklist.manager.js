@@ -7,6 +7,7 @@ export class KanbanChecklistManager {
     constructor(board) {
         this.board = board;
         this.currentCardId = null;
+        this.isLoading = false;
         
         // Inicializar actions
         this.grupoActions = new GrupoActions(board, kanbanService);
@@ -27,7 +28,11 @@ export class KanbanChecklistManager {
     }
 
     async carregarChecklists(cardData) {
+        // Evita requisições duplicadas
+        if (this.isLoading) return;
+        
         try {
+            this.isLoading = true;
             this.limparChecklists();
             this.currentCardId = cardData.id;
             
@@ -46,6 +51,8 @@ export class KanbanChecklistManager {
         } catch (error) {
             console.error('Erro ao carregar checklists:', error);
             this.board.utils.mostrarNotificacao('Erro ao carregar checklists', 'error');
+        } finally {
+            this.isLoading = false;
         }
     }
 }

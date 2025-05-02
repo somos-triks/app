@@ -15,9 +15,13 @@ export class GrupoActions {
 
     async deletar(grupoId) {
         try {
-            await this.kanbanService.deletarGrupoChecklist(grupoId);
+            const response = await this.kanbanService.deletarGrupoChecklist(grupoId);
+            if (!response || !response.success) {
+                throw new Error(response?.message || 'Erro ao deletar grupo');
+            }
+            return response;
         } catch (error) {
-            this.board.utils.mostrarNotificacao('Erro ao deletar grupo', 'error');
+            this.board.utils.mostrarNotificacao(error.message || 'Erro ao deletar grupo', 'error');
             throw error;
         }
     }

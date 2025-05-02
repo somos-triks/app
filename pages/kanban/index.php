@@ -4,6 +4,26 @@ require_once ROOT_PATH . '/includes/header.php';
 require_once ROOT_PATH . '/includes/sidemenu.php';
 ?>
 
+<style>
+    /* Animações personalizadas do Tailwind */
+    @keyframes wiggle {
+        0%, 100% { transform: rotate(-3deg); }
+        50% { transform: rotate(3deg); }
+    }
+    
+    .animate-wiggle {
+        animation: wiggle 0.5s ease-in-out infinite;
+    }
+    
+    @keyframes ping {
+        75%, 100% { transform: scale(1.5); opacity: 0; }
+    }
+    
+    .animate-ping {
+        animation: ping 0.8s cubic-bezier(0, 0, 0.2, 1) 1;
+    }
+</style>
+
 <div class="min-h-screen">
     <main class="lg:ml-20 pt-16 transition-all duration-300 lg:group-hover/sidemenu:ml-64">
         <div class="p-6 lg:p-8">
