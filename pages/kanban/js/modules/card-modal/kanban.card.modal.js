@@ -75,6 +75,49 @@ export class KanbanCardModal {
         });
 
         document.getElementById('cardPrazo').addEventListener('change', () => this.salvarAlteracoes());
+
+        // Adicionar evento para o botão Novo Checklist
+        document.getElementById('addChecklistGroupBtn')?.addEventListener('click', () => {
+            const template = document.getElementById('newChecklistGroupTemplate');
+            const clone = template.content.cloneNode(true);
+            const container = document.getElementById('checklistGroups');
+            container.appendChild(clone);
+        });
+
+        // Adicionar handler para os botões de criar/cancelar novo grupo
+        document.addEventListener('click', async (e) => {
+            if (e.target.closest('.cancel-checklist-group')) {
+                e.target.closest('.bg-gray-50').remove();
+            }
+
+            if (e.target.closest('.save-checklist-group')) {
+                const container = e.target.closest('.bg-gray-50');
+                const input = container.querySelector('input');
+                const nome = input.value.trim();
+
+                if (!nome) {
+                    this.board.utils.mostrarNotificacao('Digite um nome para o checklist', 'error');
+                    return;
+                }
+
+                try {
+                    const dados = {
+                        card_id: this.currentCardId,
+                        nome: nome
+                    };
+
+                    const response = await kanbanService.criarGrupoChecklist(dados);
+                    if (response.success) {
+                        container.remove();
+                        // Renderiza o novo grupo diretamente
+                        const grupoEl = this.board.checklistManager.grupoRenderer.render(response.data);
+                        document.getElementById('checklistGroups').appendChild(grupoEl);
+                    }
+                } catch (error) {
+                    this.board.utils.mostrarNotificacao('Erro ao criar checklist', 'error');
+                }
+            }
+        });
     }
 
     updatePrioridadeLabel() {

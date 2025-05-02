@@ -43,5 +43,55 @@ export class ItemRenderer {
         this.setupDeleteButton(itemEl, item);
     }
 
-    // ... métodos auxiliares para templates e event listeners
+    setupToggleButton(itemEl, item) {
+        const toggleBtn = itemEl.querySelector('.toggle-item');
+        toggleBtn.addEventListener('click', async () => {
+            try {
+                const novoStatus = await this.itemActions.toggleMarcacao(item);
+                item.marcacao = novoStatus;
+                toggleBtn.innerHTML = novoStatus ? this.getCheckmarkSvg() : '';
+                toggleBtn.classList.toggle('bg-primary-500', novoStatus);
+                toggleBtn.classList.toggle('border-primary-500', novoStatus);
+            } catch (error) {
+                console.error('Erro ao alterar status:', error);
+            }
+        });
+    }
+
+    setupNomeEditor(itemEl, item) {
+        const nomeEl = itemEl.querySelector('.text-sm');
+        nomeEl.addEventListener('blur', async () => {
+            const novoNome = nomeEl.textContent.trim();
+            if (novoNome && novoNome !== item.nome) {
+                await this.itemActions.editarNome(item.id, item, novoNome);
+                item.nome = novoNome;
+            }
+        });
+
+        nomeEl.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                nomeEl.blur();
+            }
+        });
+    }
+
+    setupDeleteButton(itemEl, item) {
+        itemEl.querySelector('.delete-item').onclick = async () => {
+            if (confirm('Remover este item?')) {
+                await this.itemActions.deletar(item.id);
+                itemEl.remove();
+            }
+        };
+    }
+
+    getCheckmarkSvg() {
+        return `<svg class="w-3 h-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>`;
+    }
+
+    getPrazoTemplate(prazo) {
+        return `<div class="mt-1 text-xs text-gray-500">${prazo}</div>`;
+    }
 }
