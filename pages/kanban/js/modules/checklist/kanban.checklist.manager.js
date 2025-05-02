@@ -32,15 +32,16 @@ export class KanbanChecklistManager {
             this.currentCardId = cardData.id;
             
             if (cardData?.checklist) {
-                cardData.checklist.forEach(grupo => {
+                const container = document.getElementById('checklistGroups');
+                for (const grupo of cardData.checklist) {
                     const grupoEl = this.grupoRenderer.render(grupo);
-                    const itemsContainer = grupoEl.querySelector('.items-container');
-                    if (itemsContainer && grupo.itens) {
-                        grupo.itens.forEach(item => {
-                            this.itemRenderer.render(itemsContainer, item);
-                        });
+                    if (grupo.itens && grupo.itens.length > 0) {
+                        const itemsContainer = grupoEl.querySelector('.items-container');
+                        for (const item of grupo.itens) {
+                            await this.itemRenderer.render(itemsContainer, item);
+                        }
                     }
-                });
+                }
             }
         } catch (error) {
             console.error('Erro ao carregar checklists:', error);
