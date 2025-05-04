@@ -22,6 +22,12 @@ require_once ROOT_PATH . '/includes/sidemenu.php';
     .animate-ping {
         animation: ping 0.8s cubic-bezier(0, 0, 0.2, 1) 1;
     }
+    .snap-x {
+    scroll-snap-type: x mandatory;
+}
+    .snap-center {
+        scroll-snap-align: center;
+    }
 </style>
 
 <div class="min-h-screen">
@@ -104,18 +110,25 @@ require_once ROOT_PATH . '/includes/sidemenu.php';
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script src="<?php echo getenv('BASE_URL'); ?>/pages/kanban/js/api.service.js"></script>
 <script src="<?php echo getenv('BASE_URL'); ?>/pages/kanban/js/app.service.js"></script>
+<script type="module" src="<?php echo getenv('BASE_URL'); ?>/pages/kanban/js/modules/card-upload/kanban.file.uploader.js"></script>
+
 <script type="module">
     import { KanbanBoard } from '<?php echo getenv('BASE_URL'); ?>/pages/kanban/js/modules/kanban.board.js';
+    import { KanbanFileUploader } from '<?php echo getenv('BASE_URL'); ?>/pages/kanban/js/modules/card-upload/kanban.file.uploader.js';
     
     let kanbanApp;
+    let fileUploader;
     
     document.addEventListener('DOMContentLoaded', async () => {
         try {
             kanbanApp = new KanbanBoard();
             await kanbanApp.init();
+            
+            // Inicializa o uploader depois do board
+            fileUploader = new KanbanFileUploader();
+            window.kanbanFileUploader = fileUploader;
         } catch (error) {
-            console.error('Erro ao inicializar kanban:', error);
-            appService.notificacao('Erro ao inicializar kanban', 'error');
+            console.error('Erro ao inicializar:', error);
         }
     });
 </script>
@@ -126,6 +139,7 @@ document.addEventListener('clienteSelected', (event) => {
     appService.atualizarListaKanbans();
 });
 </script>
+
 
 <?php require_once ROOT_PATH . '/includes/footer.php'; ?>
 

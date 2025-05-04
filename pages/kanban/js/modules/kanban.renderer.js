@@ -84,10 +84,8 @@ export class KanbanRenderer {
         container.appendChild(cardElement);
         
         // Adicionar evento de clique diretamente aqui
-        cardElement.addEventListener('click', (e) => {
-            if (!e.target.closest('.edit-card-btn')) {
-                this.board.cardModal.showModal(card.id);
-            }
+        cardElement.addEventListener('click', () => {
+            this.board.cardModal.openModal(card.id); // Alterado de showModal para openModal
         });
         
         return cardElement;

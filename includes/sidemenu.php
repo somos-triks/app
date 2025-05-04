@@ -54,3 +54,27 @@
         </nav>
     </div>
 </aside>
+
+<style>
+    /* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #701db4 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #701db4;
+    border-radius: 3px;
+    border: 0px ridge #ffffff;
+  }
+</style>

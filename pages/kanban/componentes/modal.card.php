@@ -72,8 +72,51 @@
                         </div>
                     </div>
 
+                    <!-- Arquivos -->
+                    <div class="space-y-3 mt-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Arquivos</h3>
+                            <button id="uploadFileBtn" 
+                                class="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-600 hover:text-primary-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50 rounded-lg transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                Enviar Arquivo
+                            </button>
+                            <input type="file" id="fileInput" class="hidden" multiple>
+                        </div>
+
+                        <!-- Upload Progress -->
+                        <div id="uploadProgress" class="space-y-2"></div>
+
+                        <!-- Arquivos Container -->
+                        <div id="cardFilesContainer" class="space-y-4">
+                            <!-- Área de mídia (imagens/vídeos) -->
+                            <div id="mediaFiles" class="space-y-2">
+                                <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar"></div>
+                            </div>
+
+                            <!-- Lista de documentos -->
+                            <div id="documentFiles" class="space-y-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Modal de Preview -->
+                    <div id="previewModal" class="fixed inset-0 bg-black/90 hidden z-[60] backdrop-blur-sm">
+                        <div class="absolute inset-0 flex items-center justify-center p-4">
+                            <div class="relative max-w-4xl w-full">
+                                <button class="absolute top-4 right-4 text-white/70 hover:text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </button>
+                                <div id="previewContent" class="w-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Checklists -->
-                    <div class="space-y-3">
+                    <div class="space-y-3 mt-6">
                         <div class="flex items-center justify-between">
                             <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Checklists</h3>
                             <button id="addChecklistGroupBtn" 
@@ -238,6 +281,21 @@
             <div class="flex-shrink-0 p-3 bg-gray-50 dark:bg-gray-800/50 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
                 Todas as alterações são salvas automaticamente
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Modal - Manter apenas este -->
+<div id="mediaPreviewModal" class="fixed inset-0 z-[60] hidden">
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-sm"></div>
+    <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+        <div class="relative max-w-5xl w-full bg-transparent rounded-lg">
+            <button id="closeMediaPreview" class="absolute -top-10 right-0 text-white/70 hover:text-white p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <div id="mediaPreviewContent" class="flex items-center justify-center"></div>
         </div>
     </div>
 </div>

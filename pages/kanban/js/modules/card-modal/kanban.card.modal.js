@@ -191,27 +191,6 @@ export class KanbanCardModal {
         }
     }
 
-    async showModal(cardId) {
-        try {
-            this.currentCardId = cardId;
-            this.showLoading(true);
-            this.modal.classList.remove('hidden');
-            
-            const response = await kanbanService.getCardDetalhes(cardId);
-            if (response.success) {
-                this.preencherCampos(response.data);
-                // Carrega os checklists com o novo formato
-                await this.board.checklistManager.carregarChecklists(response.data);
-            }
-        } catch (error) {
-            console.error('Erro ao carregar card:', error);
-            this.board.utils.mostrarNotificacao('Erro ao carregar detalhes do card', 'error');
-            this.hideModal();
-        } finally {
-            this.showLoading(false);
-        }
-    }
-
     preencherCampos(card) {
         document.getElementById('cardTitle').value = card.titulo || '';
         document.getElementById('cardDescricao').value = card.descricao || '';
@@ -230,6 +209,27 @@ export class KanbanCardModal {
         document.getElementById('cardPrazo').value = '';
         document.getElementById('cardPrioridade').value = '0';
         this.board.checklistManager.limparChecklists();
+        
+        // Compatibilidade com diferentes sistemas de upload
+        if (this.board.uploadManager && typeof this.board.uploadManager.setCurrentCardId === 'function') {
+            this.board.uploadManager.setCurrentCardId(null);
+        } else if (window.uploadHandler) {
+            window.uploadHandler.setCurrentCardId(null);
+        }
+        
+        // Limpar a área de arquivos
+        const filesContainer = document.getElementById('cardFilesList');
+        if (filesContainer) {
+            filesContainer.innerHTML = '';
+        }
+        
+        // Limpar o ID do card atual no manipulador de upload
+        if (window.uploadHandler) {
+            window.uploadHandler.setCurrentCardId(null);
+        }
+        
+        // Remover o atributo de ID do card no modal
+        this.modal.removeAttribute('data-card-id');
     }
 
     showLoading(show) {
@@ -244,6 +244,36 @@ export class KanbanCardModal {
         } else {
             loading.classList.add('hidden');
             content.classList.remove('hidden');
+        }
+    }
+
+    async openModal(cardId) {
+        try {
+            console.log('Abrindo modal para card:', cardId);
+            const modal = document.getElementById('cardModal');
+            modal.setAttribute('data-card-id', cardId);
+            this.currentCardId = cardId;
+            this.showLoading(true);
+            this.modal.classList.remove('hidden');
+            
+            const response = await kanbanService.getCardDetalhes(cardId);
+            console.log('Detalhes do card:', response);
+            
+            if (response.success) {
+                this.preencherCampos(response.data);
+                await this.board.checklistManager.carregarChecklists(response.data);
+                
+                // Atualizar arquivos usando os dados já obtidos
+                if (window.kanbanFileUploader) {
+                    window.kanbanFileUploader.setCurrentCardId(cardId);
+                    window.kanbanFileUploader.renderFiles(response.data.arquivos);
+                }
+            }
+        } catch (error) {
+            console.error('Erro ao abrir modal:', error);
+            this.hideModal();
+        } finally {
+            this.showLoading(false);
         }
     }
 }
