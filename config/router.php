@@ -26,15 +26,17 @@ class Router {
 $router = new Router();
 
 // Definir rotas
+
+# Autenticação
+$router->add('/logout', 'config/logout.php');
 $router->add('/', 'pages/home/index.php');
 $router->add('/login', 'pages/auth/login/index.php');
 $router->add('/registro', 'pages/auth/register/index.php');
 
+# Admin
 $router->add('/home', 'pages/home/index.php');
 
+#Clientes
 $router->add('/clientes', 'pages/clientes/index.php');
 
-$router->add('/kanban', 'pages/kanban/index.php');
 
-// Adicionar rota de logout
-$router->add('/logout', 'config/logout.php');
