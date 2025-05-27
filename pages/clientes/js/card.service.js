@@ -1,6 +1,4 @@
 const clientCardService = {
-    tags: [],
-
     setLoading(isLoading) {
         const loadingState = document.getElementById('loadingState');
         const grid = document.getElementById('clientesGrid');
@@ -14,79 +12,60 @@ const clientCardService = {
         }
     },
 
-    renderTags(clienteTags = []) {
-        if (!clienteTags.length) return '';
-        
-        return `
-            <div class="flex flex-wrap gap-2 mt-4">
-                ${clienteTags.map(tag => `
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium 
-                        ${tag.cor ? 
-                            `bg-${tag.cor}-100 text-${tag.cor}-800 dark:bg-${tag.cor}-900/30 dark:text-${tag.cor}-400` : 
-                            'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400'
-                        }">
-                        ${tag.nome}
-                    </span>
-                `).join('')}
-            </div>
-        `;
-    },
-
     renderCard(cliente) {
-        const defaultImage = `${window.appConfig.BASE_URL}/assets/img/hover.jpg`;
-        const profileImage = cliente.foto_perfil || defaultImage;
+        const defaultImage = `${window.appConfig.BASE_URL}/assets/img/hover.png`;
         
         return `
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
-                <div class="p-6">
+            <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transition-shadow duration-300 hover:shadow-lg">
+                <div class="p-4">
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <img src="${profileImage}" alt="${cliente.nome}" 
-                                    class="h-12 w-12 rounded-full object-cover border-2 border-primary-100 dark:border-primary-900">
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                    ${cliente.nome}
-                                </h3>
-                            </div>
+                        <div class="flex items-center gap-4">
+                            <img src="${cliente.foto_perfil || defaultImage}" alt="${cliente.nome}" 
+                                class="h-10 w-10 object-cover rounded-full border-2 border-primary-500 shadow-sm transition-transform duration-200 hover:scale-105">
+                            <span class="text-base font-medium text-gray-900 dark:text-white">
+                                ${cliente.nome}
+                            </span>
                         </div>
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-                            cliente.status 
-                                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' 
-                                : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                        }">
-                            ${cliente.status ? 'Ativo' : 'Inativo'}
-                        </span>
+
+                        <div class="flex items-center gap-3">
+                            ${this.renderTagsPreview(cliente.tags, cliente.id)}
+                        </div>
                     </div>
-                    ${this.renderTags(cliente.tags)}
                 </div>
             </div>
         `;
     },
 
-    renderList(clientes, targetElement) {
-        targetElement.innerHTML = clientes.map(cliente => this.renderCard(cliente)).join('');
+    renderTagsPreview(tags = [], clienteId) {
+        const maxTags = 3;
+        const visibleTags = tags.slice(0, maxTags);
+        const remainingCount = tags.length - maxTags;
+
+        return `
+            ${visibleTags.map(tag => `
+                <span class="inline-flex px-2 py-0.5 text-xs rounded-md font-medium shadow-sm transition-all duration-200"
+                    style="background: ${tag.cor}; color: #222; border: 1px solid ${tag.cor}30;">
+                    ${tag.nome}
+                </span>
+            `).join('')}
+            ${remainingCount > 0 ? `
+                <span class="inline-flex px-2 py-0.5 text-xs bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md font-medium">
+                    +${remainingCount}
+                </span>
+            ` : ''}
+            <button onclick="tagService.showTagManager(${clienteId}, event)" 
+                class="p-1 rounded-md bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-800/60 text-primary-500 hover:text-primary-700 transition-all duration-200 shadow-sm ml-1">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+            </button>
+        `;
     },
 
-    async initialize() {
-        try {
-            this.setLoading(true);
-            const [clientes, tags] = await Promise.all([
-                clientesService.listarClientes(),
-                clientesService.getTags()
-            ]);
-            this.tags = tags;
-            const grid = document.getElementById('clientesGrid');
-            this.renderList(clientes, grid);
-        } catch (error) {
-            console.error('Erro ao carregar dados:', error);
-        } finally {
-            this.setLoading(false);
-        }
+    renderList(clientes) {
+        const grid = document.getElementById('clientesGrid');
+        grid.innerHTML = clientes.map(cliente => this.renderCard(cliente)).join('');
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    clientCardService.initialize();
-});
+window.clientCardService = clientCardService;
