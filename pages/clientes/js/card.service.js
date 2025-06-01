@@ -13,57 +13,52 @@ const clientCardService = {
     },
 
     renderCard(cliente) {
-        const defaultImage = `${window.appConfig.BASE_URL}/assets/img/hover.png`;
+        // Smaller company icon with proper color
+        const companySvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 8h12M6 12h12M6 16h12"/></svg>`;
+        
+        const statusClass = cliente.ativo ? 'bg-green-500' : 'bg-gray-400';
+        const tipoPessoa = cliente.tipo_pessoa === 'F' ? 'Física' : 'Jurídica';
         
         return `
-            <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transition-shadow duration-300 hover:shadow-lg">
-                <div class="p-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <img src="${cliente.foto_perfil || defaultImage}" alt="${cliente.nome}" 
-                                class="h-10 w-10 object-cover rounded-full border-2 border-primary-500 shadow-sm transition-transform duration-200 hover:scale-105">
-                            <span class="text-base font-medium text-gray-900 dark:text-white">
-                                ${cliente.nome}
-                            </span>
+            <a href="${window.appConfig.BASE_URL}/cliente/${cliente.id}" class="block group">
+                <div class="bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
+                    <div class="relative">
+                        <div class="p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="relative">
+                                    ${cliente.foto_perfil ? 
+                                    `<img src="${cliente.foto_perfil}" alt="${cliente.nome}" class="h-12 w-12 object-cover rounded-full border-2 border-primary-500 transition-transform duration-200 group-hover:scale-110">` : 
+                                    `<div class="h-12 w-12 rounded-full border-2 border-primary-500 flex items-center justify-center bg-gray-100 dark:bg-gray-800 transition-transform duration-200 group-hover:scale-110">${companySvg}</div>`}
+                                    <span class="absolute bottom-0 right-0 h-3 w-3 rounded-full ${statusClass} border-2 border-white dark:border-black"></span>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                        ${cliente.nome}
+                                    </h3>
+                                   
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="flex items-center gap-3">
-                            ${this.renderTagsPreview(cliente.tags, cliente.id)}
+                        <div class="bg-gray-50 dark:bg-black px-5 py-2 flex justify-between items-center border-t border-gray-100 dark:border-gray-800">
+                            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                                Status: ${cliente.ativo ? 'Ativo' : 'Inativo'}
+                            </span>
+                            <span class="bg-primary-50 dark:bg-black text-primary-700 dark:text-primary-400 text-xs px-2.5 py-0.5 rounded-full font-medium inline-flex items-center border border-primary-200 dark:border-primary-800">
+                                Pessoa ${tipoPessoa}
+                            </span>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
-    },
-
-    renderTagsPreview(tags = [], clienteId) {
-        const maxTags = 3;
-        const visibleTags = tags.slice(0, maxTags);
-        const remainingCount = tags.length - maxTags;
-
-        return `
-            ${visibleTags.map(tag => `
-                <span class="inline-flex px-2 py-0.5 text-xs rounded-md font-medium shadow-sm transition-all duration-200"
-                    style="background: ${tag.cor}; color: #222; border: 1px solid ${tag.cor}30;">
-                    ${tag.nome}
-                </span>
-            `).join('')}
-            ${remainingCount > 0 ? `
-                <span class="inline-flex px-2 py-0.5 text-xs bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md font-medium">
-                    +${remainingCount}
-                </span>
-            ` : ''}
-            <button onclick="tagService.showTagManager(${clienteId}, event)" 
-                class="p-1 rounded-md bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-800/60 text-primary-500 hover:text-primary-700 transition-all duration-200 shadow-sm ml-1">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                </svg>
-            </button>
+            </a>
         `;
     },
 
     renderList(clientes) {
         const grid = document.getElementById('clientesGrid');
+        
+        // Update the grid to have list layout (full width, one below the other)
+        grid.className = "grid grid-cols-1 gap-4 bg-white dark:bg-black";
+        
         grid.innerHTML = clientes.map(cliente => this.renderCard(cliente)).join('');
     }
 };

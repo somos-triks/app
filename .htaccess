@@ -5,5 +5,5 @@ RewriteBase /triks/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Redirecionar tudo para o index.php
-RewriteRule ^(.*)$ index.php [QSA,L]
+# Redirecionar tudo para o index.php, passando a URL amigável como parâmetro
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

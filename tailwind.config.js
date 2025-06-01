@@ -1,50 +1,52 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./pages/**/*.{php,html,js,jsx}",
-    "./includes/**/*.{php,html,js,jsx}",
-    "./components/**/*.{php,html,js,jsx}",
-    "./assets/**/*.{js,jsx}",
-    "./pages/**/js/**/*.{js,jsx}",
-    "./pages/**/js/modules/**/*.{js,jsx}",
-    "!./node_modules/**/*"
-  ],
-  safelist: [
-    'bg-primary-500',
-    'hover:bg-primary-600',
-    'dark:bg-gray-700',
-    'dark:hover:bg-gray-600'
+    "./includes/**/*.{php,js}",
+    "./pages/**/*.{php,js}",
+    "./**/*.php",
   ],
   darkMode: 'class',
   theme: {
+    fontFamily: {
+      sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      serif: ['ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+      mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+    },
     extend: {
-      fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-      },
       colors: {
         primary: {
           50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#5c20e6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
+          100: '#491bec',
+          200: '#491bec',
+          300: '#491bec',
+          400: '#491bec',
+          500: '#491bec',
+          600: '#491bec',
+          700: '#491bec',
+          800: '#491bec',
+          900: '#491bec',
+          950: '#491bec',
         },
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0', transform: 'translateY(-4px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' }
+        black: '#000000',
+        white: '#ffffff',
+        custom: {
+          border: '#191919',
         }
       },
-      animation: {
-        fadeIn: 'fadeIn 0.2s ease-out'
-      }
-    }
+      backgroundColor: {
+        dark: '#000000',
+        light: '#ffffff',
+      },
+      textColor: {
+        dark: '#ffffff',
+        light: '#000000',
+      },
+      borderColor: {
+        custom: {
+          border: '#191919',
+        }
+      },
+    },
   },
   plugins: [],
 }

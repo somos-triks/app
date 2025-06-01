@@ -1,25 +1,4 @@
 <script>
-document.getElementById('sidemenu').classList.add('group/sidemenu');
-
-// Improved mobile menu handling
-const mobileMenu = document.getElementById('mobile-menu');
-const sidemenu = document.getElementById('sidemenu');
-const backdrop = document.createElement('div');
-
-backdrop.className = 'fixed inset-0 bg-gray-900/20 backdrop-blur-sm z-40 lg:hidden';
-backdrop.style.display = 'none';
-document.body.appendChild(backdrop);
-
-function toggleMenu() {
-    sidemenu.classList.toggle('-translate-x-full');
-    backdrop.style.display = sidemenu.classList.contains('-translate-x-full') ? 'none' : 'block';
-}
-
-mobileMenu.addEventListener('click', toggleMenu);
-backdrop.addEventListener('click', toggleMenu);
-</script>
-
-<script>
     window.appConfig = {
         BASE_URL: '<?php echo getenv("BASE_URL"); ?>',
         API_URL: '<?php echo getenv("API_URL"); ?>',
@@ -30,6 +9,31 @@ backdrop.addEventListener('click', toggleMenu);
         ?>
     };
 </script>
-<script src="<?php echo getenv('BASE_URL'); ?>/assets/js/header/app.service.js"></script>
-    </body>
+</div>
+
+<footer class="bg-white dark:bg-black border-t border-gray-200 dark:border-custom-border mt-auto py-4">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
+        <div class="text-center text-sm text-gray-500 dark:text-gray-400">
+            &copy; <?php echo date('Y'); ?> Triks. Todos os direitos reservados.
+        </div>
+        <div class="w-full h-px bg-custom-border mt-2"></div>
+    </div>
+</footer>
+
+<script>
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+        const button = dropdown.querySelector('button');
+        const menu = dropdown.querySelector('.dropdown-menu');
+        
+        button?.addEventListener('click', e => {
+            e.stopPropagation();
+            menu.classList.toggle('hidden');
+        });
+        
+        document.addEventListener('click', () => {
+            menu?.classList.add('hidden');
+        });
+    });
+</script>
+</body>
 </html>

@@ -2,18 +2,32 @@
 class Router {
     private $routes = [];
 
-    public function add($path, $controller) {
-        $this->routes[$path] = ROOT_PATH . '/' . $controller;
+    public function add($pattern, $controller) {
+        // Salva o padrão como regex e o controller
+        $this->routes[] = [
+            'pattern' => $pattern,
+            'controller' => ROOT_PATH . '/' . $controller
+        ];
     }
 
     public function run() {
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $base_path = str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
-        $uri = str_replace($base_path, '', $uri);
+        // Pega a URL amigável passada pelo .htaccess
+        $uri = isset($_GET['url']) ? '/' . trim($_GET['url'], '/') : '/';
 
-        if (isset($this->routes[$uri])) {
-            require_once $this->routes[$uri];
-            return;
+        foreach ($this->routes as $route) {
+            $pattern = $route['pattern'];
+
+            // Transforma padrões do tipo /cliente/(\d+) em regex
+            $regex = '#^' . preg_replace('#\((.*?)\)#', '(?P<param>$1)', $pattern) . '$#';
+
+            if (preg_match($regex, $uri, $matches)) {
+                // Se houver parâmetro, define $_GET['param']
+                if (isset($matches['param'])) {
+                    $_GET['param'] = $matches['param'];
+                }
+                require_once $route['controller'];
+                return;
+            }
         }
 
         // Rota não encontrada
@@ -38,5 +52,6 @@ $router->add('/home', 'pages/home/index.php');
 
 #Clientes
 $router->add('/clientes', 'pages/clientes/index.php');
+$router->add('/cliente/(\d+)', 'pages/cliente-page/index.php');
 
 

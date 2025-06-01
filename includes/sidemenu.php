@@ -1,80 +1,48 @@
-<aside class="fixed inset-y-0 left-0 w-20 hover:w-64 group transition-all duration-300 z-50 transform lg:translate-x-0 -translate-x-full" id="sidemenu">
-    <div class="h-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-r border-gray-100/20 dark:border-gray-800/20">
-        <nav class="flex flex-col h-full">
-            <!-- Logo Section -->
-            <div class="h-16 flex items-center justify-center border-b border-gray-100/20 dark:border-gray-800/20">
-                <div class="w-12 h-12 flex items-center justify-center">
-                    <img src="<?php echo getenv('BASE_URL'); ?>/assets/img/icone-b.png" alt="Logo" class="w-8  dark:hidden">
-                    <img src="<?php echo getenv('BASE_URL'); ?>/assets/img/icone.png" alt="Logo" class="w-8  hidden dark:block">
-                </div>
-            </div>
+<aside class="fixed inset-y-0 left-0 w-64 z-40 bg-white dark:bg-black border-r border-gray-200 dark:border-custom-border" id="sidemenu">
+    <div class="flex flex-col h-full">
+        <!-- Logo in center of top section -->
+        <div class="h-14 flex items-center justify-center border-b border-gray-200 dark:border-custom-border">
+            <img src="<?php echo getenv('BASE_URL'); ?>/assets/img/logo-preta.svg" alt="Triks Logo" class="h-8 dark:hidden">
+            <img src="<?php echo getenv('BASE_URL'); ?>/assets/img/logo-branca.svg" alt="Triks Logo" class="h-8 hidden dark:block">
+        </div>
 
-            <!-- Menu Items -->
-            <div class="flex-1 py-8 space-y-4">
+     
+        <!-- Search Bar -->
+        <div class="px-4 pt-4 pb-2">
+            <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-md">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" placeholder="Search" class="w-full bg-transparent text-sm text-gray-700 dark:text-gray-300 placeholder-gray-500 border-0 focus:ring-0 p-0">
+                <span class="text-xs text-gray-600 dark:text-gray-400">⌘K</span>
+            </div>
+        </div>
+
+        <!-- Account Label -->
+        <div class="px-4 py-2 pt-4">
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Account</span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="mt-4 px-2">
+            <div class="space-y-1">
                 <a href="<?php echo getenv('BASE_URL'); ?>/home" 
-                   class="relative flex items-center h-12 px-4 group/item">
-                    <div class="absolute left-0 w-1 h-8 rounded-r-lg bg-primary-500 transition-all"></div>
-                    <div class="w-12 flex justify-center">
-                        <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                        </svg>
-                    </div>
-                    <span class="ml-3 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-primary-600 dark:text-primary-400">Home</span>
-                </a>
-
-                <a href="<?php echo getenv('BASE_URL'); ?>/clientes" 
-                class="relative flex items-center h-12 px-4 group/item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                    <div class="w-12 flex justify-center">
-                        <svg class="w-6 h-6 text-gray-400 group-hover/item:text-primary-500 dark:text-gray-500 dark:group-hover/item:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                        </svg>
-                    </div>
-                    <span class="ml-3 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-gray-600 dark:text-gray-400 group-hover/item:text-primary-600 dark:group-hover/item:text-primary-400">Clientes</span>
-                </a>
-
-                <a href="<?php echo getenv('BASE_URL'); ?>/kanban" 
-                 class="relative flex items-center h-12 px-4 group/item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                    <div class="w-12 flex justify-center">
-                        <svg class="w-6 h-6 text-gray-400 group-hover/item:text-primary-500 dark:text-gray-500 dark:group-hover/item:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-                        </svg>
-                    </div>
-                    <span class="ml-3 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-gray-600 dark:text-gray-400 group-hover/item:text-primary-600 dark:group-hover/item:text-primary-400">Quadros</span>
-                </a>
-            </div>
-
-            <!-- Bottom Section -->
-            <div class="p-4 border-t border-gray-100/20 dark:border-gray-800/20">
-                <div class="w-12 h-12 mx-auto rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                   class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
-                </div>
+                    <span>Home</span>
+                </a>
+                
+                <a href="<?php echo getenv('BASE_URL'); ?>/clientes" 
+                   class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                    </svg>
+                    <span>Clientes</span>
+                </a>
             </div>
         </nav>
+        <div class="w-full h-px bg-custom-border mt-auto mb-4 mx-4"></div>
     </div>
 </aside>
-
-<style>
-    /* ===== Scrollbar CSS ===== */
-  /* Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #701db4 #ffffff;
-  }
-
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: #ffffff;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #701db4;
-    border-radius: 3px;
-    border: 0px ridge #ffffff;
-  }
-</style>
