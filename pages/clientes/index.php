@@ -30,16 +30,19 @@ require_once ROOT_PATH . '/includes/sidemenu.php';
         <!-- Search and filter section -->
         <div class="flex flex-col sm:flex-row gap-4 mb-6">
             <div class="flex-grow">
-                <div class="relative rounded-md shadow-sm">
+                <div class="relative rounded-lg">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <input type="search" id="searchCliente" class="focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 pr-3 py-2 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 dark:text-white rounded-md" placeholder="Buscar clientes...">
+                    <input type="search" 
+                           id="searchCliente" 
+                           class="block w-full pl-10 pr-3 py-2.5 border border-gray-200 dark:border-gray-800 bg-white dark:bg-black text-gray-800 dark:text-white rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500" 
+                           placeholder="Pesquisar clientes...">
                 </div>
             </div>
-            <!-- Any filters -->
+            <!-- Any existing filters -->
         </div>
         
         <!-- Loading state -->
@@ -65,7 +68,8 @@ require_once ROOT_PATH . '/includes/sidemenu.php';
     </div>
 </main>
 
-<!-- Scripts -->
+<!-- Include the search.js file -->
+<script src="<?php echo getenv('BASE_URL'); ?>/pages/clientes/js/search.service.js"></script>
 <script src="<?php echo getenv('BASE_URL'); ?>/pages/clientes/js/api.service.js"></script>
 <script src="<?php echo getenv('BASE_URL'); ?>/pages/clientes/js/card.service.js"></script>
 <script src="<?php echo getenv('BASE_URL'); ?>/pages/clientes/js/state.service.js"></script>
