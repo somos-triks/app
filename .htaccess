@@ -1,11 +1,8 @@
 RewriteEngine On
 
-# Defina o base path corretamente (ajuste se seu app não está na raiz)
-RewriteBase /
-
-# Não reescreva se for arquivo ou diretório real
+# Se não for um arquivo ou diretório existente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Redirecione tudo para index.php, mantendo parâmetros
+# Redirecionar tudo para o index.php, passando a URL amigável como parâmetro
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
