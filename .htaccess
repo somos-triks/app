@@ -1,9 +1,5 @@
 RewriteEngine On
-RewriteBase 
-
-# Se não for um arquivo ou diretório existente
+RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# Redirecionar tudo para o index.php, passando a URL amigável como parâmetro
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+RewriteRule ^(.*)$ /index.php?url=$1 [L,QSA]
