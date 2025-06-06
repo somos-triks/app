@@ -1,5 +1,9 @@
 <?php
-session_start();
+require_once dirname(__DIR__) . '/config/config.php';
+setupSessionCookieForRailway();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 if (!isset($_SESSION['user']) || !isset($_SESSION['token'])) {
     header('Location: ' . getenv('BASE_URL') . '/login');
     exit;
