@@ -16,3 +16,17 @@ function loadEnv() {
 }
 
 loadEnv();
+
+// Configuração de sessão para Railway (produção) - não afeta localhost
+if (
+    isset($_SERVER['HTTP_HOST']) &&
+    strpos($_SERVER['HTTP_HOST'], 'railway.app') !== false &&
+    session_status() === PHP_SESSION_NONE
+) {
+    session_set_cookie_params([
+        'domain' => $_SERVER['HTTP_HOST'],
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+}

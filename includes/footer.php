@@ -2,7 +2,7 @@
     window.appConfig = {
         BASE_URL: '<?php echo getenv("BASE_URL"); ?>',
         API_URL: '<?php echo getenv("API_URL"); ?>',
-        AUTH_TOKEN: '<?php echo isset($_SESSION["token"]) ? $_SESSION["token"] : ""; ?>',
+        AUTH_TOKEN: '<?php echo $_SESSION["token"] ?? ""; ?>',
         selectedClientId: <?php 
             $selectedClientId = isset($_SESSION['selectedClientId']) ? $_SESSION['selectedClientId'] : 'null';
             echo $selectedClientId;

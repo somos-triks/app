@@ -1,7 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 if (!isset($_SESSION['user']) || !isset($_SESSION['token'])) {
     header('Location: ' . getenv('BASE_URL') . '/login');
     exit;
