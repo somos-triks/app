@@ -1,9 +1,6 @@
 <?php
-if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/login') === false) {
-    header('Location: ' . getenv('BASE_URL') . '/login');
-    exit;
-}
-require_once dirname(__DIR__, 3) . '/config/config.php'; ?>
+require_once dirname(__DIR__, 3) . '/config/config.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
