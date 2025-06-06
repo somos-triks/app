@@ -30,3 +30,18 @@ if (
         'samesite' => 'Lax'
     ]);
 }
+
+function setupSessionCookieForRailway() {
+    if (
+        isset($_SERVER['HTTP_HOST']) &&
+        strpos($_SERVER['HTTP_HOST'], 'railway.app') !== false &&
+        session_status() === PHP_SESSION_NONE
+    ) {
+        session_set_cookie_params([
+            'domain' => $_SERVER['HTTP_HOST'],
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+    }
+}
