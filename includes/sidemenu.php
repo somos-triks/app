@@ -18,8 +18,8 @@
         </div>
 
         <!-- Account Label -->
-        <div class="px-4 py-2 pt-4">
-            <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Menu</span>
+        <div class="px-4 py-2">
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">MENU</span>
         </div>
 
         <!-- Navigation Menu -->
@@ -43,5 +43,15 @@
             </div>
         </nav>
         <div class="w-full h-px bg-custom-border mt-auto mb-4 mx-4"></div>
+        <!-- Botão de Sair -->
+        <div class="px-4 pb-4">
+            <a href="<?php echo getenv('BASE_URL'); ?>/config/logout.php"
+               class="flex items-center gap-2 px-3 py-2 text-base text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 rounded-md font-medium">
+                <svg class="w-5 h-5 text-red-400 dark:text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V3m0 0a9 9 0 110 18 9 9 0 010-18z"/>
+                </svg>
+                <span>Sair</span>
+            </a>
+        </div>
     </div>
 </aside>

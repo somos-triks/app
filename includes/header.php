@@ -1,10 +1,13 @@
 <?php
 require_once dirname(__DIR__) . '/config/config.php';
-setupSessionCookieForRailway();
+
+// Iniciar sessão de forma segura
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-if (!isset($_SESSION['user']) || !isset($_SESSION['token'])) {
+
+// Proteção: redirecionar se não autenticado
+if (empty($_SESSION['user']) || empty($_SESSION['token'])) {
     header('Location: ' . getenv('BASE_URL') . '/login');
     exit;
 }
@@ -33,18 +36,29 @@ $user = $_SESSION['user'];
 </head>
 <body class="bg-white dark:bg-black text-black dark:text-white">
     <!-- Header with dark mode toggle button -->
-    <header class="fixed w-full top-0 z-50 bg-white dark:bg-black h-14 flex items-center justify-end pr-4 border-b border-gray-200 dark:border-custom-border">
-        <div class="ml-64 flex-grow">
-            <!-- Empty space as per the image -->
+    <header class="fixed w-full top-0 z-50 bg-white dark:bg-black h-14 flex items-center border-b border-gray-200 dark:border-custom-border">
+        <!-- Logo + barra + nome do usuário -->
+        <div class="flex-1 flex items-center pl-6">
+            <img src="<?php echo getenv('BASE_URL'); ?>/assets/img/icone.png" alt="Logo Triks" class="h-5 w-auto mr-2 dark:hidden">
+            <img src="<?php echo getenv('BASE_URL'); ?>/assets/img/icone-b.png" alt="Logo Triks" class="h-5 w-auto mr-2 hidden dark:inline">
+            <!-- Barra SVG -->
+            <img src="<?php echo getenv('BASE_URL'); ?>/assets/img/barra-p.svg" alt="/" class="h-6 w-auto mx-2 dark:hidden">
+            <img src="<?php echo getenv('BASE_URL'); ?>/assets/img/barra-b.svg" alt="/" class="h-6 w-auto mx-2 hidden dark:inline">
+            <div class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <?php echo htmlspecialchars($user['nome']); ?>
+            </div>
         </div>
-        <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden dark:block text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block dark:hidden text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-        </button>
+        <!-- Dark mode toggle button alinhado à direita -->
+        <div class="pr-6">
+            <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden dark:block text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block dark:hidden text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+        </div>
     </header>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

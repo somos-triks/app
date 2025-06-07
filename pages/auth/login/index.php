@@ -1,4 +1,13 @@
-
+<?php
+require_once dirname(__DIR__, 3) . '/config/config.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!empty($_SESSION['user']) && !empty($_SESSION['token'])) {
+    header('Location: ' . getenv('BASE_URL') . '/home');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

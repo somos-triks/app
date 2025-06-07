@@ -45,21 +45,35 @@ const loginService = {
                 body: JSON.stringify({ email, senha })
             });
 
-            // Log da resposta para debug
             const data = await response.json();
+            // Log da resposta para debug
             console.log('Resposta da API:', data);
             
             if (data.success) {
+                // Cria sessão no backend
+                const sessionPayload = {
+                    user: data.data.usuario,
+                    token: data.data.token
+                };
                 const sessionResponse = await fetch(`${BASE_URL}/config/session.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(data.data)
+                    body: JSON.stringify(sessionPayload)
                 });
 
                 if (sessionResponse.ok) {
-                    window.location.href = `${BASE_URL}/home`;
+                    // Verifica se sessão foi realmente criada
+                    const sessionCheck = await fetch(`${BASE_URL}/config/session.php?action=check`, {
+                        credentials: 'include'
+                    });
+                    const sessionCheckData = await sessionCheck.json();
+                    if (sessionCheckData && sessionCheckData.authenticated) {
+                        window.location.href = `${BASE_URL}/home`;
+                    } else {
+                        throw new Error('Falha ao criar sessão. Tente novamente.');
+                    }
                 } else {
                     throw new Error('Erro ao criar sessão');
                 }
